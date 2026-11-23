@@ -9,17 +9,57 @@ main{max-width:760px;margin:0 auto;padding:20px 16px 40px}h1{margin:0 0 4px;font
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.n{font-weight:650}
 .b{padding:6px 14px;border-radius:999px;font-weight:700}.buy{background:var(--gb);color:var(--g)}
 .sell{background:var(--rb);color:var(--r)}.hold{background:var(--yb);color:var(--y)}.none{background:var(--bd);color:var(--mu)}
+input{width:130px;margin:6px 0;padding:8px 10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+.a{padding:8px 0;border-top:1px solid var(--bd)}.a:first-of-type{border-top:0}
 </style></head><body><main><h1>Mijn Trading Signalen</h1>
-<div class="mu" id="s"></div><div id="l"></div>
-<p class="mu">Automatisch berekend uit dagkoersen (trend + RSI). Geen financieel advies; beslis altijd zelf.</p></main>
+<div class="mu" id="s"></div><div id="app"></div>
+<p class="mu">Automatisch berekend uit dagkoersen (trend + RSI). Kosten en beurstaks zijn schattingen: controleer altijd de "geschatte kosten" in DEGIRO voor je bevestigt. Geen financieel advies; beslis altijd zelf. Je invoer blijft enkel in deze browser bewaard.</p></main>
 <script>
-const D={"rows": [{"name": "Bitcoin", "sym": "BTC-USD", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 21 (oversold)", "price": 62102.82, "cur": "USD", "since": "09-2014", "n": 4451}, {"name": "Vanguard FTSE All-World (VWCE)", "sym": "VWCE.DE", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 165.3, "cur": "EUR", "since": "07-2019", "n": 1862}, {"name": "Goud", "sym": "GC=F", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 37 (neutraal)", "price": 3674.1, "cur": "USD", "since": "08-2000", "n": 6584}, {"name": "Vertiv", "sym": "VRT", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 37 (neutraal)", "price": 188.94, "cur": "USD", "since": "08-2018", "n": 2089}, {"name": "Arista Networks", "sym": "ANET", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 53 (neutraal)", "price": 179.9, "cur": "USD", "since": "06-2014", "n": 3136}, {"name": "Nike", "sym": "NKE", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 33 (neutraal)", "price": 33.56, "cur": "USD", "since": "12-1980", "n": 11588}, {"name": "iShares MSCI World (IWDA)", "sym": "IWDA.AS", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 126.83, "cur": "EUR", "since": "09-2009", "n": 4392}, {"name": "Invesco QQQ", "sym": "QQQ", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 42 (neutraal)", "price": 648.23, "cur": "USD", "since": "03-1999", "n": 6971}, {"name": "Nvidia", "sym": "NVDA", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 35 (neutraal)", "price": 164.19, "cur": "USD", "since": "01-1999", "n": 7003}], "stamp": "23-11-2026 16:44"},T={buy:"KOPEN / BIJKOPEN",sell:"VERKOPEN / VERMINDEREN",hold:"HOUDEN / WACHTEN",none:"Geen data"};
+const D={"rows": [{"name": "Bitcoin", "sym": "BTC-USD", "tsym": "BTCE.DE", "kind": "etc", "fee": 3, "tob": 0.35, "note": "Je koopt geen echte bitcoin op DEGIRO, enkel een bitcoin-ETP. Controleer of die voor jou beschikbaar is.", "fx": false, "sig": "hold", "score": 1, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 21 (oversold)", "price": 62082.72, "cur": "USD", "since": "09-2014", "n": 4451, "price_eur": 50.31}, {"name": "Vanguard FTSE All-World (VWCE)", "sym": "VWCE.DE", "tsym": "VWCE.DE", "kind": "etf", "fee": 3, "tob": 1.32, "note": "Accumulerend fonds: beurstaks 1,32%. Via Tradegate (Kernselectie) vaak maar 1 euro orderkost.", "fx": false, "sig": "hold", "score": 0, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 165.04, "cur": "EUR", "since": "07-2019", "n": 1862, "price_eur": 165.04}, {"name": "Goud", "sym": "GC=F", "tsym": "4GLD.DE", "kind": "etc", "fee": 3, "tob": 0.35, "note": "Je koopt goud via een goud-ETC (bv. Xetra-Gold), niet via futures.", "fx": false, "sig": "sell", "score": -2, "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 36 (neutraal)", "price": 3660.1, "cur": "USD", "since": "08-2000", "n": 6584, "price_eur": 108.37}, {"name": "Vertiv", "sym": "VRT", "tsym": "VRT", "kind": "stock", "fee": 2, "tob": 0.35, "note": "Amerikaans aandeel: wisselkost ca. 0,25%. Geen fracties, je koopt hele aandelen.", "fx": true, "sig": "sell", "score": -2, "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 37 (neutraal)", "price": 189.21, "cur": "USD", "since": "08-2018", "n": 2089, "price_eur": 173.76}, {"name": "Arista Networks", "sym": "ANET", "tsym": "ANET", "kind": "stock", "fee": 2, "tob": 0.35, "note": "Amerikaans aandeel: wisselkost ca. 0,25%. Geen fracties.", "fx": true, "sig": "hold", "score": 0, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 53 (neutraal)", "price": 179.56, "cur": "USD", "since": "06-2014", "n": 3136, "price_eur": 164.89}, {"name": "Nike", "sym": "NKE", "tsym": "NKE", "kind": "stock", "fee": 2, "tob": 0.35, "note": "Amerikaans aandeel: wisselkost ca. 0,25%. Geen fracties.", "fx": true, "sig": "sell", "score": -2, "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 34 (neutraal)", "price": 33.67, "cur": "USD", "since": "12-1980", "n": 11588, "price_eur": 30.91}, {"name": "iShares MSCI World (IWDA)", "sym": "IWDA.AS", "tsym": "IWDA.AS", "kind": "etf", "fee": 3, "tob": 1.32, "note": "Accumulerend fonds: beurstaks 1,32%. Lijkt sterk op VWCE (veel overlap).", "fx": false, "sig": "hold", "score": 0, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 126.76, "cur": "EUR", "since": "09-2009", "n": 4392, "price_eur": 126.76}, {"name": "Invesco QQQ (Nasdaq-100)", "sym": "QQQ", "tsym": "EQQQ.DE", "kind": "etf", "fee": 3, "tob": 0.12, "note": "QQQ zelf is een Amerikaanse ETF die Europese particulieren niet kunnen kopen. Gebruik de Europese versie (EQQQ).", "fx": false, "sig": "hold", "score": 0, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 42 (neutraal)", "price": 649.99, "cur": "USD", "since": "03-1999", "n": 6971, "price_eur": 600.4}, {"name": "Nvidia", "sym": "NVDA", "tsym": "NVDA", "kind": "stock", "fee": 2, "tob": 0.35, "note": "Amerikaans aandeel: wisselkost ca. 0,25%. Geen fracties.", "fx": true, "sig": "hold", "score": 0, "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 35 (neutraal)", "price": 164.4, "cur": "USD", "since": "01-1999", "n": 7003, "price_eur": 150.94}], "stamp": "23-11-2026 16:53"},K="portf_v1",T={buy:"KOPEN",sell:"VERKOPEN",hold:"HOUDEN",none:"Geen data"};
+let S={cash:600,h:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const E=v=>"\u20ac"+v.toFixed(2);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e};
+const cost=(r,v)=>r.fee+v*r.tob/100+(r.fx?v*0.0025:0);
+const unit=r=>r.price_eur*(1+r.tob/100+(r.fx?0.0025:0));
 document.getElementById("s").textContent="Laatst bijgewerkt: "+D.stamp;
-const l=document.getElementById("l");
-D.rows.forEach(r=>{const c=document.createElement("div");c.className="card";
-const w=document.createElement("div");w.className="row";
-const a=document.createElement("div");const n=document.createElement("div");n.className="n";n.textContent=r.name;
-const t=document.createElement("div");t.className="mu";t.textContent=r.sym+(r.price?" · "+r.price+" "+r.cur+" · data sinds "+r.since+" ("+r.n+" dagen)":"");
-a.append(n,t);const b=document.createElement("span");b.className="b "+r.sig;b.textContent=T[r.sig];
-w.append(a,b);const y=document.createElement("p");y.className="mu";y.textContent=r.why;c.append(w,y);l.append(c)});
+const app=document.getElementById("app");
+const cc=el("div","card");cc.append(el("div","n","Mijn geld"),el("div","mu","Bedrag (in euro) dat nu vrij staat om te beleggen, zonder wat je al belegd hebt:"));
+const ci=el("input");ci.type="number";ci.min=0;ci.value=S.cash;ci.oninput=()=>{S.cash=Math.max(0,parseFloat(ci.value)||0);save();upd()};cc.append(ci);
+const pc=el("div","card");app.append(cc,pc);
+const hv={};
+D.rows.forEach(r=>{const c=el("div","card"),w=el("div","row"),a=el("div");
+a.append(el("div","n",r.name),el("div","mu",r.tsym+" (signaal: "+r.sym+")"+(r.price_eur?" \u00b7 prijs "+E(r.price_eur):"")+(r.since?" \u00b7 data sinds "+r.since+" ("+r.n+" dagen)":"")));
+w.append(a,el("span","b "+r.sig,T[r.sig]));c.append(w,el("p","mu",r.why));
+if(r.note)c.append(el("p","mu","Let op: "+r.note));
+c.append(el("span","mu","Ik heb (aantal stuks): "));
+const i=el("input");i.type="number";i.min=0;i.value=S.h[r.sym]||"";i.placeholder="0";
+i.oninput=()=>{S.h[r.sym]=Math.max(0,parseInt(i.value)||0);save();upd()};
+hv[r.sym]=el("div","mu");c.append(i,hv[r.sym]);app.append(c)});
+function upd(){
+ let cash=S.cash,out=[],tc=0,pv=0;
+ D.rows.forEach(r=>{const n=S.h[r.sym]||0;if(r.price_eur)pv+=n*r.price_eur});
+ D.rows.forEach(r=>{const n=S.h[r.sym]||0;
+  hv[r.sym].textContent=n&&r.price_eur?"Ingezet: "+n+" stuk(ken) \u2248 "+E(n*r.price_eur)+" ("+(100*n*r.price_eur/(pv+S.cash||1)).toFixed(0)+"% van mijn totaal)":"";
+  if(r.sig==="sell"&&n>0&&r.price_eur){const v=n*r.price_eur,c=cost(r,v);cash+=v-c;tc+=c;out.push("VERKOOP alle "+n+" stuk(ken) "+r.name+" \u2248 "+E(v)+" (kosten \u2248 "+E(c)+")")}});
+ let cand=D.rows.filter(r=>r.sig==="buy"&&r.price_eur).sort((a,b)=>b.score-a.score);
+ const skipped=cand.slice(Math.max(1,Math.floor(cash/150)));cand=cand.slice(0,Math.max(1,Math.floor(cash/150)));
+ const b={};cand.forEach(r=>b[r.sym]=0);
+ const per=cand.length?cash/cand.length:0;
+ cand.forEach(r=>{const n=Math.floor((per-r.fee)/unit(r));if(n>0){b[r.sym]=n;cash-=n*unit(r)+r.fee}});
+ for(;;){const o=cand.filter(r=>cash>=unit(r)+(b[r.sym]?0:r.fee)).sort((x,y)=>unit(x)-unit(y))[0];if(!o)break;cash-=unit(o)+(b[o.sym]?0:o.fee);b[o.sym]++}
+ cand.forEach(r=>{const n=b[r.sym];if(n>0){const v=n*r.price_eur,c=cost(r,v);tc+=c;out.push("KOOP "+n+" \u00d7 "+r.name+" \u2248 "+E(v)+" (kosten \u2248 "+E(c)+", "+(100*c/v).toFixed(1)+"%)")}
+  else out.push(r.name+": signaal KOPEN, maar 1 stuk kost \u2248 "+E(unit(r)+r.fee)+" en past niet in je budget per positie.")});
+ skipped.forEach(r=>out.push(r.name+": ook KOPEN, maar met je budget houd je het beter bij minder posities (kosten blijven laag)."));
+ D.rows.filter(r=>r.sig==="buy"&&!r.price_eur).forEach(r=>out.push(r.name+": prijs onbekend, kan niet berekend worden."));
+ D.rows.filter(r=>r.sig==="hold"&&(S.h[r.sym]||0)>0).forEach(r=>out.push("HOUD "+r.name+" aan, nu niets doen."));
+ pc.replaceChildren(el("div","n","Wat moet ik nu doen?"));
+ if(!out.length)pc.append(el("div","a","Niets doen: er is geen koop- of verkoopsignaal dat past bij je budget."));
+ out.forEach(x=>pc.append(el("div","a",x)));
+ const tot=pv+S.cash;
+ pc.append(el("p","mu","Totale kosten van dit plan \u2248 "+E(tc)+" \u00b7 blijft over in cash \u2248 "+E(cash)+" \u00b7 mijn totaal nu \u2248 "+E(tot)+"."));
+ if(tot>0&&tc/tot>0.02)pc.append(el("p","mu","Let op: de kosten zijn meer dan 2% van je totaal. Bij kleine bedragen eet dat een groot deel van je winst op. Weinig en groter handelen is goedkoper dan vaak en klein."));
+}
+upd();
 </script></body></html>
