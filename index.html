@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Mijn Trading Signalen</title>
+<style>
+:root{--bg:#f6f7f9;--c:#fff;--tx:#14181f;--mu:#667085;--bd:#e3e6eb;--g:#12805c;--gb:#e3f6ee;--r:#c0392b;--rb:#fdeceb;--y:#8a6d00;--yb:#fff6d6}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1318;--c:#181d25;--tx:#eef1f5;--mu:#9aa4b2;--bd:#2a313c;--g:#4fd1a0;--gb:#123327;--r:#ff8a7d;--rb:#3a1c19;--y:#f2cc4d;--yb:#3a3213}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 40px}h1{margin:0 0 4px;font-size:1.5rem}
+.mu{color:var(--mu);font-size:.9rem}.card{background:var(--c);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:12px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.n{font-weight:650}
+.b{padding:6px 14px;border-radius:999px;font-weight:700}.buy{background:var(--gb);color:var(--g)}
+.sell{background:var(--rb);color:var(--r)}.hold{background:var(--yb);color:var(--y)}.none{background:var(--bd);color:var(--mu)}
+</style></head><body><main><h1>Mijn Trading Signalen</h1>
+<div class="mu" id="s"></div><div id="l"></div>
+<p class="mu">Automatisch berekend uit dagkoersen (trend + RSI). Geen financieel advies; beslis altijd zelf.</p></main>
+<script>
+const D={"rows": [{"name": "Bitcoin", "sym": "BTC-USD", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 21 (oversold)", "price": 62102.82, "cur": "USD", "since": "09-2014", "n": 4451}, {"name": "Vanguard FTSE All-World (VWCE)", "sym": "VWCE.DE", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 165.3, "cur": "EUR", "since": "07-2019", "n": 1862}, {"name": "Goud", "sym": "GC=F", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 37 (neutraal)", "price": 3674.1, "cur": "USD", "since": "08-2000", "n": 6584}, {"name": "Vertiv", "sym": "VRT", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 37 (neutraal)", "price": 188.94, "cur": "USD", "since": "08-2018", "n": 2089}, {"name": "Arista Networks", "sym": "ANET", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 53 (neutraal)", "price": 179.9, "cur": "USD", "since": "06-2014", "n": 3136}, {"name": "Nike", "sym": "NKE", "sig": "sell", "why": "koers onder 50-daags gemiddelde \u00b7 50d onder 200d (neerwaartse trend) \u00b7 RSI 33 (neutraal)", "price": 33.56, "cur": "USD", "since": "12-1980", "n": 11588}, {"name": "iShares MSCI World (IWDA)", "sym": "IWDA.AS", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 45 (neutraal)", "price": 126.83, "cur": "EUR", "since": "09-2009", "n": 4392}, {"name": "Invesco QQQ", "sym": "QQQ", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 42 (neutraal)", "price": 648.23, "cur": "USD", "since": "03-1999", "n": 6971}, {"name": "Nvidia", "sym": "NVDA", "sig": "hold", "why": "koers onder 50-daags gemiddelde \u00b7 50d boven 200d (opwaartse trend) \u00b7 RSI 35 (neutraal)", "price": 164.19, "cur": "USD", "since": "01-1999", "n": 7003}], "stamp": "23-11-2026 16:44"},T={buy:"KOPEN / BIJKOPEN",sell:"VERKOPEN / VERMINDEREN",hold:"HOUDEN / WACHTEN",none:"Geen data"};
+document.getElementById("s").textContent="Laatst bijgewerkt: "+D.stamp;
+const l=document.getElementById("l");
+D.rows.forEach(r=>{const c=document.createElement("div");c.className="card";
+const w=document.createElement("div");w.className="row";
+const a=document.createElement("div");const n=document.createElement("div");n.className="n";n.textContent=r.name;
+const t=document.createElement("div");t.className="mu";t.textContent=r.sym+(r.price?" · "+r.price+" "+r.cur+" · data sinds "+r.since+" ("+r.n+" dagen)":"");
+a.append(n,t);const b=document.createElement("span");b.className="b "+r.sig;b.textContent=T[r.sig];
+w.append(a,b);const y=document.createElement("p");y.className="mu";y.textContent=r.why;c.append(w,y);l.append(c)});
+</script></body></html>
